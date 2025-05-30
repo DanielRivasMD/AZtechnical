@@ -122,3 +122,32 @@ patient_labels = kmeans.fit_predict(patient_embeddings)
 # Visualize the embeddings using techniques like **UMAP** or **t-SNE** to explore the clusters of patients.
 
 ####################################################################################################
+
+import umap.umap_ as umap
+import matplotlib.pyplot as plt
+
+# Reduce the dimensionality for visualization.
+reducer = umap.UMAP(random_state=42)
+embeddings_umap = reducer.fit_transform(patient_embeddings)
+
+# Visualize KMeans clusters
+plt.figure(figsize=(10, 6))
+plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1],
+            c=patient_labels, cmap='viridis', s=10)
+plt.title("UMAP Visualization of Patient Embeddings (KMeans)")
+plt.xlabel("UMAP1")
+plt.ylabel("UMAP2")
+plt.colorbar(label='KMeans Cluster')
+plt.show()
+
+# Visualize DBSCAN clusters
+plt.figure(figsize=(10, 6))
+plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1],
+            c=patient_labels_dbscan, cmap='Spectral', s=10)
+plt.title("UMAP Visualization of Patient Embeddings (DBSCAN)")
+plt.xlabel("UMAP1")
+plt.ylabel("UMAP2")
+plt.colorbar(label='DBSCAN Cluster')
+plt.show()
+
+####################################################################################################
