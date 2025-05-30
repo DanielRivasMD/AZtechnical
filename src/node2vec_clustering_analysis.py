@@ -57,12 +57,16 @@ init_params = {
     "verbose": True,
 }
 
+adjust_dim = 128
+adjust_num_walks = 10
+adjust_walk_length = 80
+
 # Params for embedding
 # Modify the ADJUST_PARAM values in embed_params based on your experimentation
 embed_params = {
-    "dim": ADJUST_PARAM,
-    "num_walks": ADJUST_PARAM,
-    "walk_length": ADJUST_PARAM,
+    "dim": adjust_dim,
+    "num_walks": adjust_num_walks,
+    "walk_length": adjust_walk_length,
     "window_size": 5,
     "epochs": 5,
     "verbose": True,
