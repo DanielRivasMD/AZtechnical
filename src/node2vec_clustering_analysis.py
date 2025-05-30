@@ -101,6 +101,15 @@ patient_ids = node_ids_array[patient_mask]
 
 ####################################################################################################
 
+from sklearn.cluster import DBSCAN
+
+# DBSCAN parameters can have a significant impact. Here eps is the maximum distance for points
+# to be considered neighbors. min_samples is the number of points needed to form a dense region.
+dbscan = DBSCAN(eps=0.5, min_samples=5)
+patient_labels_dbscan = dbscan.fit_predict(patient_embeddings)
+
+####################################################################################################
+
 # Apply KMeans clustering
 n_clusters = 5
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
