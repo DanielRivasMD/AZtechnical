@@ -13,6 +13,7 @@ from pecanpy import pecanpy as node2vec
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
 
 ####################################################################################################
 
@@ -109,6 +110,21 @@ plt.xlabel("Principal Component 1")
 plt.ylabel("Principal Component 2")
 plt.grid(True)
 plt.show()
+
+# t-SNE Visualization
+tsne = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42)
+tsne_result = tsne.fit_transform(patient_embeddings)
+
+plt.figure(figsize=(8, 6))
+plt.scatter(tsne_result[:, 0], tsne_result[:, 1], 
+            s=10, color='red', alpha=0.7)
+plt.title("t-SNE Projection of Patient Embeddings")
+plt.xlabel("t-SNE Dimension 1")
+plt.ylabel("t-SNE Dimension 2")
+plt.grid(True)
+plt.show()
+
+####################################################################################################
 
 ### 2. Experiment with DBSCAN
 
