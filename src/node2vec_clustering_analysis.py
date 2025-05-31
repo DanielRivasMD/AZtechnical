@@ -11,6 +11,8 @@ import numpy as np
 from pecanpy.graph import AdjlstGraph
 from pecanpy import pecanpy as node2vec
 from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 ####################################################################################################
 
@@ -94,6 +96,19 @@ patient_embeddings = node_embeddings[patient_mask]
 patient_ids = node_ids_array[patient_mask]
 
 ####################################################################################################
+
+# PCA Visualization
+pca = PCA(n_components=2, random_state=42)
+pca_result = pca.fit_transform(patient_embeddings)
+
+plt.figure(figsize=(8, 6))
+plt.scatter(pca_result[:, 0], pca_result[:, 1], 
+            s=10, color='blue', alpha=0.7)
+plt.title("PCA Projection of Patient Embeddings")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.grid(True)
+plt.show()
 
 ### 2. Experiment with DBSCAN
 
