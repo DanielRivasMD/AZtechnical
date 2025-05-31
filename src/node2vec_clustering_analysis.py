@@ -14,6 +14,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+from sklearn.neighbors import NearestNeighbors
 
 ####################################################################################################
 
@@ -138,6 +139,27 @@ from sklearn.cluster import DBSCAN
 # to be considered neighbors. min_samples is the number of points needed to form a dense region.
 dbscan = DBSCAN(eps=0.5, min_samples=5)
 patient_labels_dbscan = dbscan.fit_predict(patient_embeddings)
+
+####################################################################################################
+
+# Fit NearestNeighbors on patient_embeddings
+min_samples = 5
+neighbors = NearestNeighbors(n_neighbors=min_samples)
+neighbors_fit = neighbors.fit(patient_embeddings)
+distances, indices = neighbors_fit.kneighbors(patient_embeddings)
+k_distances = distances[:, min_samples - 1]
+
+# Sort these distances to visually inspect the k-distance plot.
+k_distances_sorted = np.sort(k_distances)
+
+# Plot the k-distance graph
+plt.figure(figsize=(8, 6))
+plt.plot(k_distances_sorted, marker='o', linestyle='-', markersize=3)
+plt.xlabel("Data Points (sorted)")
+plt.ylabel(f"Distance to {min_samples}th Nearest Neighbor")
+plt.title("K-Distance Plot for DBSCAN eps Selection")
+plt.grid(True)
+plt.show()
 
 ####################################################################################################
 
