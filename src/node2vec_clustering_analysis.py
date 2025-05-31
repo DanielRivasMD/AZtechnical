@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.neighbors import NearestNeighbors
+from sklearn.metrics import silhouette_score
 
 ####################################################################################################
 
@@ -167,6 +168,48 @@ plt.show()
 n_clusters = 5
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
 patient_labels = kmeans.fit_predict(patient_embeddings)
+
+####################################################################################################
+
+# Define a range of k values to try
+range_n_clusters = list(range(2, 11))
+inertias = []
+silhouette_scores = []
+
+for k in range_n_clusters:
+    # Initialize KMeans with the current number of clusters
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init='auto')
+    labels = kmeans.fit_predict(patient_embeddings)
+    
+    # Record the inertia (sum of squared distances)
+    inertias.append(kmeans.inertia_)
+    
+    # Calculate the silhouette score to evaluate cluster cohesion and separation
+    score = silhouette_score(patient_embeddings, labels)
+    silhouette_scores.append(score)
+    
+    print(f"For n_clusters = {k}, inertia = {kmeans.inertia_:.2f}, silhouette score = {score:.4f}")
+
+# Plot visualization for inertia
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.plot(range_n_clusters, inertias, marker='o')
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("Inertia")
+plt.title("Elbow Method for Optimal k")
+plt.grid(True)
+
+# Plot silhouette scores
+plt.subplot(1, 2, 2)
+plt.plot(range_n_clusters, silhouette_scores, marker='o', color='red')
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("Silhouette Score")
+plt.title("Silhouette Analysis for Optimal k")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
 
 ####################################################################################################
 
