@@ -1,21 +1,30 @@
 ####################################################################################################
 
-# Install required packages
-# !pip install pandas numpy scikit-learn pecanpy
+
 
 ####################################################################################################
 
-# Imports
+# Dataframes
 import pandas as pd
+
+# Numerical
 import numpy as np
+
+# node2vec
 from pecanpy.graph import AdjlstGraph
 from pecanpy import pecanpy as node2vec
-from sklearn.cluster import KMeans
+
+# Graphics
 import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
+
+# Algorithms
 from sklearn.manifold import TSNE
-from sklearn.neighbors import NearestNeighbors
+from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
+from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import KMeans
+import umap.umap_ as umap
 
 ####################################################################################################
 
@@ -40,13 +49,11 @@ for node_id in node_ids:
 for source, target in edges_iter:
     graph.add_edge(source, target, directed=False)
 
-
 ####################################################################################################
 
 ### 1. Select the Right Parameters for Node2Vec
 
-# Experiment with the following Node2Vec parameters to improve embedding quality. Use external resources as needed to understand their impact:
-
+# Experiment with the following Node2Vec parameters to improve embedding quality:
 # - **dim**
 # - **num_walks**
 # - **walk_length**
@@ -105,8 +112,7 @@ pca = PCA(n_components=2, random_state=42)
 pca_result = pca.fit_transform(patient_embeddings)
 
 plt.figure(figsize=(8, 6))
-plt.scatter(pca_result[:, 0], pca_result[:, 1], 
-            s=10, color='blue', alpha=0.7)
+plt.scatter(pca_result[:, 0], pca_result[:, 1], s=10, color='blue', alpha=0.7)
 plt.title("PCA Projection of Patient Embeddings")
 plt.xlabel("Principal Component 1")
 plt.ylabel("Principal Component 2")
@@ -118,8 +124,7 @@ tsne = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42)
 tsne_result = tsne.fit_transform(patient_embeddings)
 
 plt.figure(figsize=(8, 6))
-plt.scatter(tsne_result[:, 0], tsne_result[:, 1], 
-            s=10, color='red', alpha=0.7)
+plt.scatter(tsne_result[:, 0], tsne_result[:, 1], s=10, color='red', alpha=0.7)
 plt.title("t-SNE Projection of Patient Embeddings")
 plt.xlabel("t-SNE Dimension 1")
 plt.ylabel("t-SNE Dimension 2")
@@ -130,14 +135,14 @@ plt.show()
 
 ### 2. Experiment with DBSCAN
 
-# Please experiment with **DBSCAN** and compare its results with **KMeans**. Try to explore the differences between these two clustering algorithms.
+# Please experiment with **DBSCAN** and compare its results with **KMeans**.
+# Explore the differences between these two clustering algorithms.
 
 ####################################################################################################
 
-from sklearn.cluster import DBSCAN
-
-# DBSCAN parameters can have a significant impact. Here eps is the maximum distance for points
-# to be considered neighbors. min_samples is the number of points needed to form a dense region.
+# DBSCAN parameters can have a significant impact.
+# Here eps is the maximum distance for points to be considered neighbors,
+# and min_samples is the number of points needed to form a dense region.
 dbscan = DBSCAN(eps=0.5, min_samples=5)
 patient_labels_dbscan = dbscan.fit_predict(patient_embeddings)
 
@@ -190,7 +195,7 @@ for k in range_n_clusters:
     
     print(f"For n_clusters = {k}, inertia = {kmeans.inertia_:.2f}, silhouette score = {score:.4f}")
 
-# Plot visualization for inertia
+# Plot visualization for inertia and silhouette scores
 plt.figure(figsize=(12, 5))
 
 plt.subplot(1, 2, 1)
@@ -200,7 +205,6 @@ plt.ylabel("Inertia")
 plt.title("Elbow Method for Optimal k")
 plt.grid(True)
 
-# Plot silhouette scores
 plt.subplot(1, 2, 2)
 plt.plot(range_n_clusters, silhouette_scores, marker='o', color='red')
 plt.xlabel("Number of Clusters (k)")
@@ -219,17 +223,13 @@ plt.show()
 
 ####################################################################################################
 
-import umap.umap_ as umap
-import matplotlib.pyplot as plt
-
 # Reduce the dimensionality for visualization.
 reducer = umap.UMAP(random_state=42)
 embeddings_umap = reducer.fit_transform(patient_embeddings)
 
 # Visualize KMeans clusters
 plt.figure(figsize=(10, 6))
-plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1],
-            c=patient_labels, cmap='viridis', s=10)
+plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1], c=patient_labels, cmap='viridis', s=10)
 plt.title("UMAP Visualization of Patient Embeddings (KMeans)")
 plt.xlabel("UMAP1")
 plt.ylabel("UMAP2")
@@ -238,8 +238,7 @@ plt.show()
 
 # Visualize DBSCAN clusters
 plt.figure(figsize=(10, 6))
-plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1],
-            c=patient_labels_dbscan, cmap='Spectral', s=10)
+plt.scatter(embeddings_umap[:, 0], embeddings_umap[:, 1], c=patient_labels_dbscan, cmap='Spectral', s=10)
 plt.title("UMAP Visualization of Patient Embeddings (DBSCAN)")
 plt.xlabel("UMAP1")
 plt.ylabel("UMAP2")
