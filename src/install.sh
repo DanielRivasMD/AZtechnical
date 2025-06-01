@@ -35,7 +35,7 @@ echo -e "\n${GREEN}Numpy installation complete${NC}"
 
 echo -e "\n${YELLOW}Installing scikit-learn...${NC}"
 conda install scikit-learn -y -c conda-forge
-echo -e "\n${GREEN}scikit-learn installation complete${NC}"
+echo -e "\n${GREEN}Scikit-learn installation complete${NC}"
 
 echo -e "\n${YELLOW}Installing scipy...${NC}"
 conda install scipy -y -c conda-forge
@@ -49,10 +49,18 @@ echo -e "\n${YELLOW}Installing UMAP (umap-learn)...${NC}"
 conda install umap-learn -y -c conda-forge
 echo -e "\n${GREEN}UMAP installation complete${NC}"
 
+echo -e "\n${YELLOW}Installing pyarrow...${NC}"
+conda install pyarrow -y -c conda-forge
+echo -e "\n${GREEN}Pyarrow installation complete${NC}"
+
+echo -e "\n${YELLOW}Installing fastparquet...${NC}"
+conda install fastparquet -y -c conda-forge
+echo -e "\n${GREEN}Fastparquet installation complete${NC}"
+
 echo -e "\n${YELLOW}Installing pecanpy...${NC}"
 # pecanpy is not available via conda so install using pip
 pip install pecanpy
-echo -e "\n${GREEN}pecanpy installation complete${NC}"
+echo -e "\n${GREEN}Pecanpy installation complete${NC}"
 
 echo -e "\n${GREEN}All dependencies have been successfully installed in the conda environment '${ENV_NAME}'${NC}"
 echo -e "\nTo activate the environment later, run: conda activate ${ENV_NAME}"
