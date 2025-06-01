@@ -1,6 +1,10 @@
 ####################################################################################################
 
-
+import os
+# Create graph directory where plots will be saved
+GRAPH_DIR = 'graph'
+if not os.path.exists(GRAPH_DIR):
+    os.makedirs(GRAPH_DIR)
 
 ####################################################################################################
 
@@ -117,7 +121,8 @@ plt.title("PCA Projection of Patient Embeddings")
 plt.xlabel("Principal Component 1")
 plt.ylabel("Principal Component 2")
 plt.grid(True)
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "pca_projection.png"))
+plt.close()
 
 # t-SNE Visualization
 tsne = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42)
@@ -129,7 +134,8 @@ plt.title("t-SNE Projection of Patient Embeddings")
 plt.xlabel("t-SNE Dimension 1")
 plt.ylabel("t-SNE Dimension 2")
 plt.grid(True)
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "tsne_projection.png"))
+plt.close()
 
 ####################################################################################################
 
@@ -165,7 +171,8 @@ plt.xlabel("Data Points (sorted)")
 plt.ylabel(f"Distance to {min_samples}th Nearest Neighbor")
 plt.title("K-Distance Plot for DBSCAN eps Selection")
 plt.grid(True)
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "k_distance_plot.png"))
+plt.close()
 
 ####################################################################################################
 
@@ -213,7 +220,8 @@ plt.title("Silhouette Analysis for Optimal k")
 plt.grid(True)
 
 plt.tight_layout()
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "cluster_evaluation.png"))
+plt.close()
 
 ####################################################################################################
 
@@ -234,7 +242,8 @@ plt.title("UMAP Visualization of Patient Embeddings (KMeans)")
 plt.xlabel("UMAP1")
 plt.ylabel("UMAP2")
 plt.colorbar(label='KMeans Cluster')
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "umap_kmeans.png"))
+plt.close()
 
 # Visualize DBSCAN clusters
 plt.figure(figsize=(10, 6))
@@ -243,6 +252,7 @@ plt.title("UMAP Visualization of Patient Embeddings (DBSCAN)")
 plt.xlabel("UMAP1")
 plt.ylabel("UMAP2")
 plt.colorbar(label='DBSCAN Cluster')
-plt.show()
+plt.savefig(os.path.join(GRAPH_DIR, "umap_dbscan.png"))
+plt.close()
 
 ####################################################################################################
