@@ -25,6 +25,10 @@ GREEN="\033[0;32m"
 YELLOW="\033[0;33m"
 NC="\033[0m"  # No Color
 
+echo -e "\n${YELLOW}Installing Jupyter Notebook...${NC}"
+conda install jupyter -y -c conda-forge
+echo -e "\n${GREEN}Jupyter Notebook installation complete${NC}"
+
 echo -e "\n${YELLOW}Installing pandas...${NC}"
 conda install pandas -y -c conda-forge
 echo -e "\n${GREEN}Pandas installation complete${NC}"
