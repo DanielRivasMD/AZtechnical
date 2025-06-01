@@ -3,3 +3,6 @@ data
 
 # Graphics
 graph
+
+# Jupyter checkpoints
+jp/.ipynb_checkpoints
