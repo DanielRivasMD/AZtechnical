@@ -78,12 +78,16 @@ logger.info("matplotlib imported successfully")
 ####################################################################################################
 
 from sklearn.manifold import TSNE
+logger.info("TSNE imported successfully")
 from sklearn.decomposition import PCA
+logger.info("PCA imported successfully")
 from sklearn.metrics import silhouette_score
 from sklearn.neighbors import NearestNeighbors
+logger.info("NearestNrighbors imported successfully")
 from sklearn.cluster import DBSCAN, KMeans
+logger.info("DBSCAN imported successfully")
 import umap.umap_ as umap
-logger.info("sklearn and UMAP imported successfully")
+logger.info("UMAP imported successfully")
 
 ####################################################################################################
 # Load the data
